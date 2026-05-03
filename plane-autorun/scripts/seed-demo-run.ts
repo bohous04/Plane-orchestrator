@@ -2,7 +2,8 @@
 // to render before any real autorun has happened. Idempotent: drops the
 // 'demo-run' row first if it already exists.
 
-import { resolve } from "node:path";
+import { resolve, dirname } from "node:path";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { config as loadEnv } from "dotenv";
 import { openDb } from "../packages/core/dist/index.js";
 
@@ -10,6 +11,29 @@ loadEnv({ path: resolve(process.cwd(), ".env") });
 
 const dbPath = resolve(process.cwd(), "runs.db");
 const db = openDb(dbPath);
+
+// Synthetic log content used by the xterm.js demo so the terminal page has
+// something to replay even when the runner never executed.
+function writeDemoLog(path: string, identifier: string, status: "success" | "blocked"): void {
+  mkdirSync(dirname(path), { recursive: true });
+  const lines: string[] = [];
+  lines.push(`[runner] starting on worktree for ${identifier}`);
+  lines.push(`[runner] reading prompt`);
+  lines.push(`[runner] thinking…`);
+  lines.push(`[36m[edit][0m app/example/page.tsx`);
+  lines.push(`[33m[bash][0m pnpm test`);
+  lines.push(`PASS  app/example/__tests__/page.test.tsx`);
+  if (status === "success") {
+    lines.push(`[32mSTATUS: SUCCESS[0m`);
+    lines.push(`SUMMARY: harness completed task for ${identifier}`);
+    lines.push(`FILES: app/example/page.tsx, app/example/__tests__/page.test.tsx`);
+  } else {
+    lines.push(`[31mSTATUS: BLOCKED[0m`);
+    lines.push(`SUMMARY: needs more context`);
+    lines.push(`FILES: none`);
+  }
+  writeFileSync(path, lines.join("\n") + "\n", "utf8");
+}
 
 const RUN_ID = "demo-run-0001";
 const RUN_BRANCH = "DOCH-AUTORUN-DEMO";
@@ -110,6 +134,23 @@ db.transaction(() => {
     mergeStatus: "skipped",
   });
 });
+
+// Materialize log files for the terminal demo (idempotent overwrite).
+writeDemoLog(
+  "/tmp/demo-worktrees/DOCH-AUTORUN-DEMO/.logs/DOCH-12.log",
+  "DOCH-12",
+  "success",
+);
+writeDemoLog(
+  "/tmp/demo-worktrees/DOCH-AUTORUN-DEMO/.logs/DOCH-13.log",
+  "DOCH-13",
+  "success",
+);
+writeDemoLog(
+  "/tmp/demo-worktrees/DOCH-AUTORUN-DEMO/.logs/DOCH-19.log",
+  "DOCH-19",
+  "blocked",
+);
 
 console.log(`Seeded demo run at ${dbPath}`);
 db.close();
