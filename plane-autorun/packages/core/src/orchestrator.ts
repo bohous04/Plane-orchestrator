@@ -193,6 +193,17 @@ export async function runProject(
     startedAt,
   });
 
+  // SIGINT/SIGTERM: mark run aborted in DB so a future --resume picks up.
+  let aborted = false;
+  const abortHandler = () => {
+    if (aborted) return;
+    aborted = true;
+    log.warn({ runId: runRecord.id }, "received signal; marking run aborted (state preserved for resume)");
+    db.updateRunStatus(runRecord.id, { status: "aborted", endedAt: Date.now() });
+  };
+  process.on("SIGINT", abortHandler);
+  process.on("SIGTERM", abortHandler);
+
   // 5. Pool + concurrency
   const pool = new PortPool(project.ports);
   const limit = pLimit(project.concurrency);
@@ -531,6 +542,9 @@ export async function runProject(
     prUrl,
     endedAt,
   });
+
+  process.off("SIGINT", abortHandler);
+  process.off("SIGTERM", abortHandler);
 
   events.emit("run:end", {
     runId: runRecord.id,
