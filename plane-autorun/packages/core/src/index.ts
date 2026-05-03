@@ -30,6 +30,15 @@ export type { MergeInput, MergeReport } from "./git.js";
 export { spawnRunner, writePromptFile } from "./runner.js";
 export type { SpawnRunnerInput, RunnerResult } from "./runner.js";
 
+export { runProject } from "./orchestrator.js";
+export type { RunOptions, RunResult } from "./orchestrator.js";
+
+export { preflight, assertPreflight, PreflightError } from "./preflight.js";
+export type { PreflightReport, BinaryCheck } from "./preflight.js";
+
+export { successComment, blockedComment, mergeConflictComment } from "./comment.js";
+export { buildPrBody, createDraftPr } from "./pr.js";
+
 export { PlaneClient, PlaneApiError, REQUIRED_STATES, stripHtml, escapeHtml } from "./plane.js";
 export type {
   PlaneClientOptions,

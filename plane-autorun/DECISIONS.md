@@ -80,6 +80,14 @@ PRD §12 mentions that the snapshot list response carries `description_html` and
 
 ---
 
+## M5: full non-dry-run is gated on the runner agent file
+
+The orchestrator's full path (Plane state writes, runner spawns × 44, merges, push, draft PR) is only useful with the real `plane-autorun-runner` agent. Without it (see M4 entry below) every task would BLOCK with "no structured report". Per user session rules I'm not running the full non-dry-run end-to-end against the live Plane workspace anyway.
+
+The M5 demo I shipped is `pnpm autorun --project doch --no-tui --dry-run`, which exercises everything that matters for verification: preflight, Plane resolve, queue snapshot, sort, and emits the planned execution to stdout without a single git/spawn/Plane-write side effect. The non-dry-run path is type-checked and unit-test-covered (orchestrator imports git, runner, Plane client all of which are tested) but not end-to-end demoed.
+
+---
+
 ## M4: plane-autorun-runner agent file is missing
 
 PRD §4 says `plane-autorun-runner.md` "stays — same file, same prompt structure". Searching the filesystem turns up no such agent definition (not in `chwdirections/.claude/agents/`, not in `~/.claude/agents/`, not anywhere). The only agent installed locally is `chaos-tester.md`.

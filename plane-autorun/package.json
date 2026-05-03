@@ -2,6 +2,7 @@
   "name": "plane-autorun",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "Plane autorun harness — TypeScript orchestrator that drives plane-autorun-runner across a Plane queue.",
   "scripts": {
     "build": "pnpm -r build",
