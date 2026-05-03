@@ -27,6 +27,9 @@ export * as git from "./git.js";
 export { GitError } from "./git.js";
 export type { MergeInput, MergeReport } from "./git.js";
 
+export { spawnRunner, writePromptFile } from "./runner.js";
+export type { SpawnRunnerInput, RunnerResult } from "./runner.js";
+
 export { PlaneClient, PlaneApiError, REQUIRED_STATES, stripHtml, escapeHtml } from "./plane.js";
 export type {
   PlaneClientOptions,

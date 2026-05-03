@@ -80,6 +80,21 @@ PRD §12 mentions that the snapshot list response carries `description_html` and
 
 ---
 
+## M4: plane-autorun-runner agent file is missing
+
+PRD §4 says `plane-autorun-runner.md` "stays — same file, same prompt structure". Searching the filesystem turns up no such agent definition (not in `chwdirections/.claude/agents/`, not in `~/.claude/agents/`, not anywhere). The only agent installed locally is `chaos-tester.md`.
+
+STATUS: PARTIAL — needs human.
+
+What I did:
+- spawnRunner is fully implemented per PRD §11 (kill chain, log+JSON tee, header parse, BLOCKED fallbacks).
+- Integration test exercises everything via a stub `claude` shell script that emits the three-header contract.
+- Skipped the "real DOCH task" demo because invoking `claude -p --agent plane-autorun-runner` would fail with "agent not found".
+
+To unblock the live demo, install or create `plane-autorun-runner.md` at `~/.claude/agents/plane-autorun-runner.md` (or in `chwdirections/.claude/agents/`). Once installed, `pnpm exec tsx scripts/run-one.ts <DOCH-id>` should work against a real worktree.
+
+---
+
 ## M2: Workspace symlink for tsx scripts
 
 The `scripts/` directory needs `package.json` with `"type": "module"` so tsx doesn't treat it as CJS. Scripts import from the compiled `packages/core/dist/index.js` rather than `@plane-autorun/core` because the workspace symlink isn't resolvable from outside any package context. Acceptable: scripts/ is dev-only.
