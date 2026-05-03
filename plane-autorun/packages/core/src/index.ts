@@ -23,6 +23,10 @@ export type { ParsedHeaders, RunnerStatus } from "./parse.js";
 
 export { PortPool } from "./pool.js";
 
+export * as git from "./git.js";
+export { GitError } from "./git.js";
+export type { MergeInput, MergeReport } from "./git.js";
+
 export { PlaneClient, PlaneApiError, REQUIRED_STATES, stripHtml, escapeHtml } from "./plane.js";
 export type {
   PlaneClientOptions,
