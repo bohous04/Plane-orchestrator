@@ -1,0 +1,29 @@
+{
+  "name": "@plane-autorun/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "autorun": "./bin/autorun.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch",
+    "lint": "eslint src --ext .ts,.tsx",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "autorun": "tsx src/cli.ts"
+  },
+  "dependencies": {
+    "@plane-autorun/core": "workspace:*",
+    "commander": "^12.1.0",
+    "ink": "^5.0.1",
+    "ink-spinner": "^5.0.0",
+    "react": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.4",
+    "@types/react": "^18.3.10",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
+  }
+}

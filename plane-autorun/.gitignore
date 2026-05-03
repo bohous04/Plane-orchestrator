@@ -1,0 +1,41 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# build outputs
+dist/
+.next/
+out/
+*.tsbuildinfo
+
+# env files (only .env.example is committed)
+.env
+.env.*
+!.env.example
+
+# runtime data
+runs/
+runs.db
+runs.db-journal
+runs.db-wal
+runs.db-shm
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# logs
+*.log
+logs/
+
+# editor
+.vscode/
+.idea/
+.DS_Store
+
+# coverage
+coverage/
+.nyc_output/
+
+# test fixtures with possible secrets
+packages/core/test/fixtures/.real-*
