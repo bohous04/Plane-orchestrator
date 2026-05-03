@@ -23,6 +23,16 @@ export type { ParsedHeaders, RunnerStatus } from "./parse.js";
 
 export { PortPool } from "./pool.js";
 
+export { PlaneClient, PlaneApiError, REQUIRED_STATES, stripHtml, escapeHtml } from "./plane.js";
+export type {
+  PlaneClientOptions,
+  PlaneProject,
+  PlaneState,
+  PlaneUser,
+  PlaneWorkItem,
+  PlaneSnapshotItem,
+} from "./plane.js";
+
 export { log } from "./log.js";
 export type { Logger } from "./log.js";
 

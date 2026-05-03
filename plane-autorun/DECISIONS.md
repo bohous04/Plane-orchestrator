@@ -65,3 +65,21 @@ Chose: **(b)**. Confirmed by user ("I want you to test if it works, so do it"). 
 ## Pre-M0: Branch strategy
 
 Single `main` branch on this fresh repo. One commit per milestone (`M0: Bootstrap`, `M1: ...`, etc). No force-push, no rebase.
+
+---
+
+## M2: Plane auth header
+
+PRD §12 says `Authorization: <token>` (no `Bearer`). Probing the live API at `plane.agent42.cz` shows that header is rejected and the server expects **`x-api-key: <token>`** instead. PRD is wrong; implementation uses `x-api-key`. Confirmed against `/users/me/`, `/workspaces/test/projects/`, `/states/`, `/issues/`.
+
+---
+
+## M2: Description stripping
+
+PRD §12 mentions that the snapshot list response carries `description_html` and `description_stripped`. The live API only returns `description_html` (and `description_text: null`). I added a small `stripHtml` helper to derive plain text locally. Good enough for runner prompts and Plane comments; not a full HTML parser.
+
+---
+
+## M2: Workspace symlink for tsx scripts
+
+The `scripts/` directory needs `package.json` with `"type": "module"` so tsx doesn't treat it as CJS. Scripts import from the compiled `packages/core/dist/index.js` rather than `@plane-autorun/core` because the workspace symlink isn't resolvable from outside any package context. Acceptable: scripts/ is dev-only.
