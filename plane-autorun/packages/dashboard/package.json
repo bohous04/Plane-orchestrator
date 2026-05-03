@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack -p 3000",
+    "dev": "next dev -p 3000",
     "build": "next build",
     "start": "next start -p 3000",
     "lint": "next lint",
@@ -15,6 +15,7 @@
     "@xterm/addon-web-links": "^0.11.0",
     "@xterm/xterm": "^5.5.0",
     "better-sqlite3": "^11.3.0",
+    "dotenv": "^16.4.5",
     "lucide-react": "^0.451.0",
     "next": "^15.0.0",
     "pino": "^9.4.0",

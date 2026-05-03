@@ -39,6 +39,9 @@ export type { PreflightReport, BinaryCheck } from "./preflight.js";
 export { successComment, blockedComment, mergeConflictComment } from "./comment.js";
 export { buildPrBody, createDraftPr } from "./pr.js";
 
+export { parseEnv, setEnv, writeEnvKey } from "./envfile.js";
+export type { EnvLine } from "./envfile.js";
+
 export { PlaneClient, PlaneApiError, REQUIRED_STATES, stripHtml, escapeHtml } from "./plane.js";
 export type {
   PlaneClientOptions,

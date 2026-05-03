@@ -141,7 +141,10 @@ export async function spawnRunner(input: SpawnRunnerInput): Promise<RunnerResult
   );
   killChain.push(
     setTimeout(() => {
-      if (!child.killed && child.exitCode === null) {
+      // child.killed flips true the moment we call .kill() (regardless of
+      // whether the child actually died), so we can't use it to gate SIGKILL.
+      // The only reliable signal that the child is still alive is exitCode.
+      if (child.exitCode === null) {
         log.warn({ taskId: input.taskId }, "runner did not respond to SIGTERM; sending SIGKILL");
         try {
           child.kill("SIGKILL");

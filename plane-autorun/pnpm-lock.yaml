@@ -112,6 +112,9 @@ importers:
       better-sqlite3:
         specifier: ^11.3.0
         version: 11.10.0
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.6.1
       lucide-react:
         specifier: ^0.451.0
         version: 0.451.0(react@18.3.1)
