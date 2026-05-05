@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+.next/
+out/
+*.tsbuildinfo
+
+# Env files (only .env.example is committed)
+.env
+.env.*
+!.env.example
+
+# Runtime data — runs.db lives at the workspace root in dev
+runs/
+runs.db
+runs.db-journal
+runs.db-wal
+runs.db-shm
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Logs
+*.log
+logs/
+
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Local fixtures with possible secrets
+**/test/fixtures/.real-*
